@@ -1,3 +1,4 @@
+#' @export
 as_immarchset <- function(x, chain = NULL, meta = NULL) {
   data <- lapply(x, as_immarch, chain = chain)
   if (is.null(meta))
@@ -9,6 +10,7 @@ as_immarchset <- function(x, chain = NULL, meta = NULL) {
   )
 }
 
+#' @export
 as_immarch <- function(x, chain = NULL) {
   if (is.null(chain)) {
     stop("specify one of [", paste(unique(x$chain), collapse = " "), "]")
@@ -20,7 +22,7 @@ as_immarch <- function(x, chain = NULL) {
     select(Clones = n, Proportion = proportion, CDR3.nt = cdr3_seq, CDR3.aa = cdr3, V.name = v_gene, D.name = d_gene, J.name = j_gene)
 }
 
-
+#' @export
 get_pathway_genes <- function(pathway) {
   require(KEGGREST)
 
@@ -33,7 +35,7 @@ get_pathway_genes <- function(pathway) {
   genes
 }
 
-
+#' @export
 plot_enrichment <- function(x, n = 10, cutoff = 0.05, ontology = "BP", title = NULL) {
   if (colnames(x)[1] == "Term") {
     x <- x %>% filter(Ont == !!ontology)
@@ -64,6 +66,7 @@ plot_enrichment <- function(x, n = 10, cutoff = 0.05, ontology = "BP", title = N
     labs(x = NULL, y = NULL, title = title)
 }
 
+#' @export
 plot_gene <- function(x, name = NULL) {
   d <- cpm(x, log = TRUE) %>% as_tibble(rownames = "entrezgene")
   d <- d %>% gather(samplename, logcpm, -entrezgene)
@@ -96,7 +99,7 @@ plot_gene <- function(x, name = NULL) {
 #   ComplexHeatmap::Heatmap(m, name = "logCPM",  top_annotation = c(background, region), cluster_column_slices = FALSE, ...)
 # }
 
-
+#' @export
 plot_volcano <- function(x, coef = NULL, cutoff = 0.05, logfc = 1) {
   d <- topTable(x, coef = coef, n = Inf)
 
@@ -109,6 +112,7 @@ plot_volcano <- function(x, coef = NULL, cutoff = 0.05, logfc = 1) {
     labs(title = coef)
 }
 
+#' @export
 plot_ma <- function(x, coef = NULL, cutoff = 0.05, logfc = 1) {
   d <- topTable(x, coef = coef, n = Inf)
 
@@ -121,15 +125,17 @@ plot_ma <- function(x, coef = NULL, cutoff = 0.05, logfc = 1) {
     labs(title = coef)
 }
 
-
+#' @export
 plot_result <- function(x) {
   UseMethod("plot_result")
 }
 
+#' @export
 plot_result.TestResults <- function(x) {
   plot_result(unclass(x))
 }
 
+#' @export
 plot_result.matrix <- function(x) {
   ord <- do.call(order, as.list(as.data.frame(x)))
   x <- x[ord, ]
@@ -144,29 +150,34 @@ plot_result.matrix <- function(x) {
     labs(x = "", y = "")
 }
 
-
+#' @export
 compute_mds <- function(x, ...) {
   UseMethod("compute_mds")
 }
 
+#' @export
 compute_mds.DGEList <- function(x, ...) {
   compute_mds(t(cpm(x, ...)))
 }
 
+#' @export
 compute_mds.matrix <- function(x) {
   cmdscale(dist(x)) %>%
     as_tibble(rownames = "samplename") %>%
     dplyr::rename("MDS_1" = 2, "MDS_2" = 3)
 }
 
+#' @export
 compute_pca<- function(x, ...) {
   UseMethod("compute_pca")
 }
 
+#' @export
 compute_pca.DGEList <- function(x, ...) {
   compute_pca(t(cpm(x, ...)))
 }
 
+#' @export
 compute_pca.matrix <- function(x) {
   prcomp(dist(x), scale = TRUE)
 }
