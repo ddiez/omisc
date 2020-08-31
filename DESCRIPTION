@@ -18,4 +18,5 @@ Imports:
     ComplexHeatmap,
     edgeR,
     VennDiagram,
-    futile.logger
+    futile.logger,
+    Gviz
