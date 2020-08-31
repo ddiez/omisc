@@ -1,0 +1,173 @@
+as_immarchset <- function(x, chain = NULL, meta = NULL) {
+  data <- lapply(x, as_immarch, chain = chain)
+  if (is.null(meta))
+    meta <- data.frame(Sample = names(x))
+
+  list(
+    data = data,
+    meta = meta
+  )
+}
+
+as_immarch <- function(x, chain = NULL) {
+  if (is.null(chain)) {
+    stop("specify one of [", paste(unique(x$chain), collapse = " "), "]")
+  }
+  x %>% filter(chain == !!chain) %>%
+    count(cdr3, cdr3_seq, v_gene, d_gene, j_gene, sort = TRUE) %>%
+    add_tally(n, name = "total") %>%
+    mutate(proportion = n / total) %>%
+    select(Clones = n, Proportion = proportion, CDR3.nt = cdr3_seq, CDR3.aa = cdr3, V.name = v_gene, D.name = d_gene, J.name = j_gene)
+}
+
+
+get_pathway_genes <- function(pathway) {
+  require(KEGGREST)
+
+  pathway <- sub(".*:", "", pathway)
+  d <- KEGGREST::keggGet(pathway)
+  genes <- d[[1]]$GENE
+  genes <- grep(";", genes, value = TRUE)
+  genes <- sub(";.*", "", genes)
+  genes <- sort(unique(genes))
+  genes
+}
+
+
+plot_enrichment <- function(x, n = 10, cutoff = 0.05, ontology = "BP", title = NULL) {
+  if (colnames(x)[1] == "Term") {
+    x <- x %>% filter(Ont == !!ontology)
+  }
+
+  top.up <- x %>% arrange(P.Up) %>% head(n)
+  top.down <- x %>% arrange(P.Down) %>% head(n)
+
+  if (colnames(x)[1] == "Pathway") {
+    d <- bind_rows(top.up, top.down) %>%
+      select(term = Pathway, up = P.Up, down = P.Down)
+  } else {
+    d <- bind_rows(top.up, top.down) %>%
+      select(term = Term, up = P.Up, down = P.Down)
+  }
+
+  d <- d %>%
+    gather(direction, p.value, up, down) %>%
+    mutate(score = ifelse(direction == "up", -1 * log10(p.value), log10(p.value))) %>%
+    mutate(term = fct_reorder(term, score))
+
+  ggplot(d, aes(term, score, fill = direction)) +
+    geom_hline(yintercept = 0, lty = "dotted") +
+    geom_col() +
+    geom_hline(yintercept = c(-log10(cutoff), log10(cutoff)), lty = "dotted") +
+    scale_fill_manual(values = c("up" = "red", "down" = "blue")) +
+    coord_flip() +
+    labs(x = NULL, y = NULL, title = title)
+}
+
+plot_gene <- function(x, name = NULL) {
+  d <- cpm(x, log = TRUE) %>% as_tibble(rownames = "entrezgene")
+  d <- d %>% gather(samplename, logcpm, -entrezgene)
+  d <- d %>% left_join(x$genes, by = "entrezgene") %>% left_join(x$samples, by = "samplename")
+
+  d <- d %>% filter(symbol %in% !!name)
+  ggplot(d, aes(background, logcpm, color = background)) +
+    geom_boxplot() +
+    geom_point() +
+    facet_wrap(~region) +
+    labs(y = paste("logCPM (", name, ")"))
+}
+
+# plot_heatmap <- function(x, features = NULL, cluster_rows = TRUE, ...) {
+#   m <- cpm(x, log = TRUE)
+#
+#   sel.ok <- x$genes$symbol %in% features
+#   m <- m[sel.ok, , drop = FALSE]
+#
+#   m <- m[! is.na(x[rownames(m), ]$genes$symbol), , drop = FALSE]
+#
+#   rownames(m) <- x[rownames(m), ]$genes$symbol
+#   m <- m[features, , drop = FALSE]
+#   m <- t(scale(t(m)))
+#
+#
+#   background <- HeatmapAnnotation(background = x$samples$background, col = list(background = c("WT" = "green", "Tg" = "orange", "KO" = "red")))
+#   region <- HeatmapAnnotation(region = x$samples$region, col = list(region = c("LZ" = "limegreen", "DZ" = "steelblue")))
+#
+#   ComplexHeatmap::Heatmap(m, name = "logCPM",  top_annotation = c(background, region), cluster_column_slices = FALSE, ...)
+# }
+
+
+plot_volcano <- function(x, coef = NULL, cutoff = 0.05, logfc = 1) {
+  d <- topTable(x, coef = coef, n = Inf)
+
+  ggplot(d, aes(logFC, -log10(P.Value), color = AveExpr)) +
+    geom_point(size = .1) +
+    geom_vline(xintercept = c(-1, 1), lty = "dotted") +
+    geom_hline(yintercept = -log10(1e-3), lty = "dotted") +
+    scale_color_viridis_c() +
+    geom_point(pch = 21, color = "red", data = d %>% filter(adj.P.Val < cutoff, abs(logFC) > 1)) +
+    labs(title = coef)
+}
+
+plot_ma <- function(x, coef = NULL, cutoff = 0.05, logfc = 1) {
+  d <- topTable(x, coef = coef, n = Inf)
+
+  ggplot(d, aes(AveExpr, logFC)) +
+    geom_point(size = .1) +
+    geom_hline(yintercept = c(-1, 1), lty = "dotted") +
+    geom_hline(yintercept = 0, color = "limegreen") +
+    scale_color_viridis_c() +
+    geom_point(pch = 21, color = "red", data = d %>% filter(adj.P.Val < cutoff, abs(logFC) > 1)) +
+    labs(title = coef)
+}
+
+
+plot_result <- function(x) {
+  UseMethod("plot_result")
+}
+
+plot_result.TestResults <- function(x) {
+  plot_result(unclass(x))
+}
+
+plot_result.matrix <- function(x) {
+  ord <- do.call(order, as.list(as.data.frame(x)))
+  x <- x[ord, ]
+  y <- to_tidy(x)
+  y <- y %>% mutate(row = factor(row, rownames(x))) %>%
+    mutate(value = factor(value, c("-1", "0", "1")))
+  ggplot(y, aes(col, row, fill = value)) +
+    geom_tile() +
+    scale_x_discrete(expand = c(0, 0)) +
+    scale_y_discrete(expand = c(0, 0)) +
+    scale_fill_manual(values = c(`-1` = "blue3", `0` = "white", `1` = "red3")) +
+    labs(x = "", y = "")
+}
+
+
+compute_mds <- function(x, ...) {
+  UseMethod("compute_mds")
+}
+
+compute_mds.DGEList <- function(x, ...) {
+  compute_mds(t(cpm(x, ...)))
+}
+
+compute_mds.matrix <- function(x) {
+  cmdscale(dist(x)) %>%
+    as_tibble(rownames = "samplename") %>%
+    dplyr::rename("MDS_1" = 2, "MDS_2" = 3)
+}
+
+compute_pca<- function(x, ...) {
+  UseMethod("compute_pca")
+}
+
+compute_pca.DGEList <- function(x, ...) {
+  compute_pca(t(cpm(x, ...)))
+}
+
+compute_pca.matrix <- function(x) {
+  prcomp(dist(x), scale = TRUE)
+}
+
