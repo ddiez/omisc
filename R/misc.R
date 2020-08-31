@@ -66,19 +66,19 @@ plot_enrichment <- function(x, n = 10, cutoff = 0.05, ontology = "BP", title = N
     labs(x = NULL, y = NULL, title = title)
 }
 
-#' @export
-plot_gene <- function(x, name = NULL) {
-  d <- cpm(x, log = TRUE) %>% as_tibble(rownames = "entrezgene")
-  d <- d %>% gather(samplename, logcpm, -entrezgene)
-  d <- d %>% left_join(x$genes, by = "entrezgene") %>% left_join(x$samples, by = "samplename")
-
-  d <- d %>% filter(symbol %in% !!name)
-  ggplot(d, aes(background, logcpm, color = background)) +
-    geom_boxplot() +
-    geom_point() +
-    facet_wrap(~region) +
-    labs(y = paste("logCPM (", name, ")"))
-}
+# #' @export
+# plot_gene <- function(x, name = NULL) {
+#   d <- cpm(x, log = TRUE) %>% as_tibble(rownames = "entrezgene")
+#   d <- d %>% gather(samplename, logcpm, -entrezgene)
+#   d <- d %>% left_join(x$genes, by = "entrezgene") %>% left_join(x$samples, by = "samplename")
+#
+#   d <- d %>% filter(symbol %in% !!name)
+#   ggplot(d, aes(background, logcpm, color = background)) +
+#     geom_boxplot() +
+#     geom_point() +
+#     facet_wrap(~region) +
+#     labs(y = paste("logCPM (", name, ")"))
+# }
 
 # plot_heatmap <- function(x, features = NULL, cluster_rows = TRUE, ...) {
 #   m <- cpm(x, log = TRUE)
