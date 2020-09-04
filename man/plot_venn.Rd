@@ -3,6 +3,7 @@
 \name{plot_venn}
 \alias{plot_venn}
 \alias{plot_venn.matrix}
+\alias{plot_venn.data.frame}
 \alias{plot_venn.list}
 \title{plotVenn}
 \usage{
@@ -11,6 +12,17 @@ plot_venn(x, ...)
 \method{plot_venn}{matrix}(
   x,
   add.universe = FALSE,
+  euler = FALSE,
+  scaled = FALSE,
+  filename = NULL,
+  fontfamily = "sans",
+  cat.fontfamily = "sans",
+  main.fontfamily = "sans",
+  ...
+)
+
+\method{plot_venn}{data.frame}(
+  x,
   euler = FALSE,
   scaled = FALSE,
   filename = NULL,

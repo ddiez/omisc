@@ -47,6 +47,21 @@ plot_venn.matrix <- function(x, add.universe = FALSE, euler = FALSE, scaled = FA
 
 #' @rdname plot_venn
 #' @export
+plot_venn.data.frame <- function(x, euler = FALSE, scaled = FALSE, filename = NULL, fontfamily = "sans", cat.fontfamily = "sans", main.fontfamily = "sans", ...) {
+  plot_venn(
+    data.matrix(x),
+    euler = euler,
+    scaled = scaled,
+    filename = filename,
+    fontfamily = fontfamily,
+    cat.fontfamily = cat.fontfamily,
+    main.fontfamily = main.fontfamily,
+    ...
+  )
+}
+
+#' @rdname plot_venn
+#' @export
 plot_venn.list <- function(x, euler = FALSE, scaled = FALSE, filename = NULL, fontfamily = "sans", cat.fontfamily = "sans", main.fontfamily = "sans", ...) {
   flog.threshold(futile.logger::ERROR, name = "VennDiagramLogger")
   grid::grid.newpage()
