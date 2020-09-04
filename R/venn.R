@@ -17,7 +17,7 @@ plot_venn <- function(x, ...) {
 
 #' @rdname plot_venn
 #' @export
-plot_venn.matrix <- function(x, add.universe = FALSE, euler = FALSE, scaled = FALSE, filename = NULL, fontfamily = "sans", cat.fontfamily = "sans", main.fontfamily = "sans", ...) {
+plot_venn.matrix <- function(x, add.universe = FALSE, euler = FALSE, scaled = FALSE, filename = NULL, fontfamily = "sans", cat.fontfamily = "sans", main.fontfamily = "sans", fill = rainbow(ncol(x)), col = rep("transparent", ncol(x)), ...) {
   m2l <- function(x, add.universe = FALSE) {
     l <- lapply(seq_len(ncol(x)), function(i) {
       if (is.null(rownames(x)))
@@ -41,13 +41,15 @@ plot_venn.matrix <- function(x, add.universe = FALSE, euler = FALSE, scaled = FA
     fontfamily = fontfamily,
     cat.fontfamily = cat.fontfamily,
     main.fontfamily = main.fontfamily,
+    fill = fill,
+    col = col,
     ...
   )
 }
 
 #' @rdname plot_venn
 #' @export
-plot_venn.data.frame <- function(x, euler = FALSE, scaled = FALSE, filename = NULL, fontfamily = "sans", cat.fontfamily = "sans", main.fontfamily = "sans", ...) {
+plot_venn.data.frame <- function(x, euler = FALSE, scaled = FALSE, filename = NULL, fontfamily = "sans", cat.fontfamily = "sans", main.fontfamily = "sans", fill = rainbow(ncol(x)), col = rep("transparent", ncol(x)), ...) {
   plot_venn(
     data.matrix(x),
     euler = euler,
@@ -56,13 +58,15 @@ plot_venn.data.frame <- function(x, euler = FALSE, scaled = FALSE, filename = NU
     fontfamily = fontfamily,
     cat.fontfamily = cat.fontfamily,
     main.fontfamily = main.fontfamily,
+    fill = fill,
+    col = col,
     ...
   )
 }
 
 #' @rdname plot_venn
 #' @export
-plot_venn.list <- function(x, euler = FALSE, scaled = FALSE, filename = NULL, fontfamily = "sans", cat.fontfamily = "sans", main.fontfamily = "sans", ...) {
+plot_venn.list <- function(x, euler = FALSE, scaled = FALSE, filename = NULL, fontfamily = "sans", cat.fontfamily = "sans", main.fontfamily = "sans", fill = rainbow(length(x)), col = rep("transparent", length(x)), ...) {
   flog.threshold(futile.logger::ERROR, name = "VennDiagramLogger")
   grid::grid.newpage()
   grid::grid.draw(
@@ -74,6 +78,8 @@ plot_venn.list <- function(x, euler = FALSE, scaled = FALSE, filename = NULL, fo
       fontfamily = fontfamily,
       cat.fontfamily = cat.fontfamily,
       main.fontfamily = main.fontfamily,
+      fill = fill,
+      col = col,
       ...
     )
   )
