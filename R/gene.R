@@ -69,10 +69,6 @@ plot_gene <- function(symbol, genome, tracks = NULL, add.data = NULL, add.ann = 
                 background.title = "white")
     })
 
-    anntrack <- NULL
-    if (!is.null(add.ann)) {
-      anntrack <- get_ann_track(add.ann, symbol)
-    }
 
     if (!is.null(from) || !is.null(to)) {
       if (is.null(from))
@@ -81,6 +77,11 @@ plot_gene <- function(symbol, genome, tracks = NULL, add.data = NULL, add.ann = 
       if (is.null(to))
         to <- max(end(bmtrack), na.rm = TRUE)
     }
+  }
+
+  anntrack <- NULL
+  if (!is.null(add.ann)) {
+    anntrack <- get_ann_track(add.ann, symbol)
   }
 
   tl <- c(
