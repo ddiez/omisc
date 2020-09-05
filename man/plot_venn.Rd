@@ -44,7 +44,7 @@ plot_venn(x, ...)
   fontfamily = "sans",
   cat.fontfamily = "sans",
   main.fontfamily = "sans",
-  fill = rainbow(ncol(x)),
+  fill = rainbow(length(x)),
   col = rep("transparent", length(x)),
   ...
 )
