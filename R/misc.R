@@ -100,7 +100,7 @@ plot_enrichment <- function(x, n = 10, cutoff = 0.05, ontology = "BP", title = N
 # }
 
 #' @export
-plot_volcano <- function(x, coef = 1, top_genes = NULL, lfc = 1, fdr = 0.01) {
+plot_volcano <- function(x, coef = 1, top_genes = NULL, lfc = 1, fdr = 0.01, use.column = "symbol") {
   d <- limma::topTable(x, coef, number = Inf)
 
   p <- ggplot(d, aes(logFC, -log10(P.Value))) +
@@ -110,9 +110,9 @@ plot_volcano <- function(x, coef = 1, top_genes = NULL, lfc = 1, fdr = 0.01) {
 
   if (!is.null(top_genes)) {
     top.up <- d %>% filter(logFC >= lfc, adj.P.Val < fdr) %>% head(top_genes)
-    p <- p + ggrepel::geom_text_repel(aes(label = symbol), color = "red", data = top.up, min.segment.length = 0, max.overlaps = Inf)
+    p <- p + ggrepel::geom_text_repel(aes(label = .data[[use.column]]), color = "red", data = top.up, min.segment.length = 0, max.overlaps = Inf)
     top.down <- d %>% filter(logFC <= -lfc, adj.P.Val < fdr) %>% head(top_genes)
-    p <- p + ggrepel::geom_text_repel(aes(label = symbol), color = "blue", data = top.down, min.segment.length = 0, max.overlaps = Inf)
+    p <- p + ggrepel::geom_text_repel(aes(label = .data[[use.column]]), color = "blue", data = top.down, min.segment.length = 0, max.overlaps = Inf)
   }
   p
 }
