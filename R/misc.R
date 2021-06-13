@@ -180,9 +180,9 @@ compute_mds.DGEList <- function(x, ...) {
 
 #' @export
 compute_mds.matrix <- function(x) {
-  cmdscale(dist(x)) %>%
-    as_tibble(rownames = "samplename") %>%
-    dplyr::rename("MDS_1" = 2, "MDS_2" = 3)
+  x <- cmdscale(dist(x))
+  colnames(x) <- c("MDS_1", "MDS_2")
+  x
 }
 
 #' @export
