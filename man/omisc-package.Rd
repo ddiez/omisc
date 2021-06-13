@@ -6,7 +6,8 @@
 \alias{omisc-package}
 \title{omisc: Miscelaneous Tools for the Analysis of OMICS data}
 \description{
-What the package does (one paragraph).
+A set of miscelaneous tools to ease the analysis of omics data
+  like the one obtained from microarray and bulk RNA-seq.
 }
 \author{
 \strong{Maintainer}: Diego Diez \email{diego10ruiz@gmail.com} (\href{https://orcid.org/0000-0002-2325-4893}{ORCID})
