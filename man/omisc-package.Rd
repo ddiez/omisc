@@ -4,7 +4,7 @@
 \name{omisc-package}
 \alias{omisc}
 \alias{omisc-package}
-\title{omisc: What the Package Does (One Line, Title Case)}
+\title{omisc: Miscelaneous Tools for the Analysis of OMICS data}
 \description{
 What the package does (one paragraph).
 }
