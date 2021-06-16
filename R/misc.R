@@ -99,24 +99,6 @@ plot_enrichment <- function(x, n = 10, cutoff = 0.05, ontology = "BP", title = N
 #   ComplexHeatmap::Heatmap(m, name = "logCPM",  top_annotation = c(background, region), cluster_column_slices = FALSE, ...)
 # }
 
-#' @export
-plot_volcano <- function(x, coef = 1, top_genes = NULL, lfc = 1, fdr = 0.01, use.column = "symbol") {
-  d <- limma::topTable(x, coef, number = Inf)
-
-  p <- ggplot(d, aes(logFC, -log10(P.Value))) +
-    geom_point(size = .1) +
-    geom_hline(yintercept = -log10(1e-3), lty = "dotted") +
-    geom_vline(xintercept = c(-1, 1), color = "black", lty = "dashed")
-
-  if (!is.null(top_genes)) {
-    top.up <- d %>% filter(logFC >= lfc, adj.P.Val < fdr) %>% head(top_genes)
-    p <- p + ggrepel::geom_text_repel(aes(label = .data[[use.column]]), color = "red", data = top.up, min.segment.length = 0, max.overlaps = Inf)
-    top.down <- d %>% filter(logFC <= -lfc, adj.P.Val < fdr) %>% head(top_genes)
-    p <- p + ggrepel::geom_text_repel(aes(label = .data[[use.column]]), color = "blue", data = top.down, min.segment.length = 0, max.overlaps = Inf)
-  }
-  p
-}
-
 
 # plot_volcano <- function(x, coef = NULL, cutoff = 0.05, logfc = 1) {
 #   d <- topTable(x, coef = coef, n = Inf)
@@ -129,6 +111,7 @@ plot_volcano <- function(x, coef = 1, top_genes = NULL, lfc = 1, fdr = 0.01, use
 #     geom_point(pch = 21, color = "red", data = d %>% filter(adj.P.Val < cutoff, abs(logFC) > 1)) +
 #     labs(title = coef)
 # }
+
 
 #' @export
 plot_result <- function(x) {
