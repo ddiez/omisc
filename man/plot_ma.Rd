@@ -2,9 +2,12 @@
 % Please edit documentation in R/plot.R
 \name{plot_ma}
 \alias{plot_ma}
+\alias{plot_ma.MArrayLM}
 \title{plot_ma}
 \usage{
 plot_ma(x, ...)
+
+\method{plot_ma}{MArrayLM}(x, coef = 1, color.by = NULL)
 }
 \arguments{
 \item{x}{an R object.}

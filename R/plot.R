@@ -42,6 +42,7 @@ plot_ma <- function(x, ...) {
   UseMethod("plot_ma")
 }
 
+#' @rdname plot_ma
 #' @export
 plot_ma.MArrayLM <- function(x, coef = 1, color.by = NULL) {
   d <- limma::topTable(x, coef = coef, n = Inf)
