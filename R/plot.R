@@ -29,7 +29,7 @@ plot_hist.MArrayLM <- function(x, coef = NULL) {
 
 #' plot_ma
 #'
-#' Plots histogram from various types of objects.
+#' MA plot from various types of objects.
 #'
 #' @param x an R object.
 #' @param coef name of the coefficient.

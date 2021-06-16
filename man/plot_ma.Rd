@@ -19,5 +19,5 @@ plot_ma(x, ...)
 
 }
 \description{
-Plots histogram from various types of objects.
+MA plot from various types of objects.
 }
