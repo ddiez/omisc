@@ -131,19 +131,6 @@ plot_volcano <- function(x, coef = 1, top_genes = NULL, lfc = 1, fdr = 0.01, use
 # }
 
 #' @export
-plot_ma <- function(x, coef = NULL, cutoff = 0.05, logfc = 1) {
-  d <- topTable(x, coef = coef, n = Inf)
-
-  ggplot(d, aes(AveExpr, logFC)) +
-    geom_point(size = .1) +
-    geom_hline(yintercept = c(-1, 1), lty = "dotted") +
-    geom_hline(yintercept = 0, color = "limegreen") +
-    scale_color_viridis_c() +
-    geom_point(pch = 21, color = "red", data = d %>% filter(adj.P.Val < cutoff, abs(logFC) > 1)) +
-    labs(title = coef)
-}
-
-#' @export
 plot_result <- function(x) {
   UseMethod("plot_result")
 }
