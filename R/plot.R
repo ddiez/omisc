@@ -1,3 +1,55 @@
+#' plot_heatmap
+#'
+#' @param x object to plot.
+#' @param log whether to use log CPMs.
+#' @param batch batch variable for removeBatchEffect.
+#' @param design design matrix for removeBatchEffect.
+#' @param symbol.col column name with gene symbols.
+#' @param top_ann names of columns to be used as top annotations.
+#' @param top_ann_col color definition for the categories in the top annotations.
+#' @param ...
+#'
+#' @export
+plot_heatmap <- function(x, ...) {
+  UseMethod("plot_heatmap")
+}
+
+#' @rdname plot_heatmap
+#' @export
+plot_heatmap.DGEList <- function(x, log = TRUE, batch = NULL, design = NULL, symbol.col = "SYMBOL", top_ann = NULL, top_ann_col = NULL, ...) {
+
+  if (!is.null(top_ann)) {
+    df <- x$sample[, top_ann]
+    top_ann <- ComplexHeatmap::columnAnnotation(df = df, col = top_ann_col)
+  }
+
+
+  m <- edgeR::cpm(x, log = log)
+
+  if (!is.null(batch)) {
+    if (is.null(design))
+      design <- matrix(1, ncol(m),1)
+    m <- removeBatchEffect(m, batch = batch, design = design)
+  }
+
+  ids <- x$genes[[symbol.col]]
+  sel.na <- is.na(ids)
+  ids[sel.na] <- rownames(x)[sel.na]
+  rownames(m) <- ids
+
+  plot_heatmap(m, top_ann = top_ann, ...)
+}
+
+#' @rdname plot_heatmap
+#' @export
+plot_heatmap.matrix <- function(x, scale = TRUE, show_column_names = FALSE, ...) {
+  if (scale)
+    x <- t(scale(t(x)))
+
+  ComplexHeatmap::Heatmap(x, name = "logCPM", show_column_names = show_column_names, ...)
+}
+
+
 #' plot_hist
 #'
 #' Plots histogram from various types of objects.
