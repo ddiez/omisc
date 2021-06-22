@@ -19,7 +19,7 @@ plot_heatmap(x, ...)
   ...
 )
 
-\method{plot_heatmap}{matrix}(x, scale = TRUE, show_column_names = FALSE, ...)
+\method{plot_heatmap}{matrix}(x, scale = TRUE, show_column_names = TRUE, ...)
 }
 \arguments{
 \item{x}{object to plot.}
@@ -37,6 +37,8 @@ plot_heatmap(x, ...)
 \item{top_ann}{names of columns to be used as top annotations.}
 
 \item{top_ann_col}{color definition for the categories in the top annotations.}
+
+\item{show_column_names}{whether to show column names (default: TRUE).}
 }
 \description{
 plot_heatmap

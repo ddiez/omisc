@@ -7,6 +7,7 @@
 #' @param symbol.col column name with gene symbols.
 #' @param top_ann names of columns to be used as top annotations.
 #' @param top_ann_col color definition for the categories in the top annotations.
+#' @param show_column_names whether to show column names (default: TRUE).
 #' @param ...
 #'
 #' @export
@@ -42,7 +43,7 @@ plot_heatmap.DGEList <- function(x, log = TRUE, batch = NULL, design = NULL, sym
 
 #' @rdname plot_heatmap
 #' @export
-plot_heatmap.matrix <- function(x, scale = TRUE, show_column_names = FALSE, ...) {
+plot_heatmap.matrix <- function(x, scale = TRUE, show_column_names = TRUE, ...) {
   if (scale)
     x <- t(scale(t(x)))
 
