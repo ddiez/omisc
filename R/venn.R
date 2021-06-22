@@ -67,7 +67,7 @@ plot_venn.data.frame <- function(x, euler = FALSE, scaled = FALSE, filename = NU
 #' @rdname plot_venn
 #' @export
 plot_venn.list <- function(x, euler = FALSE, scaled = FALSE, filename = NULL, fontfamily = "sans", cat.fontfamily = "sans", main.fontfamily = "sans", fill = rainbow(length(x)), col = rep("transparent", length(x)), ...) {
-  flog.threshold(futile.logger::ERROR, name = "VennDiagramLogger")
+  futile.logger::flog.threshold(futile.logger::ERROR, name = "VennDiagramLogger")
 
   if (!is.null(filename)) {
     VennDiagram::venn.diagram(
