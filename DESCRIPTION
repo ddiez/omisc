@@ -21,4 +21,6 @@ Imports:
     VennDiagram,
     futile.logger,
     Gviz
+Suggests:
+    KEGGREST
 License: MIT + file LICENSE
