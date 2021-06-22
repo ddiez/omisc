@@ -23,19 +23,6 @@ as_immarch <- function(x, chain = NULL) {
 }
 
 #' @export
-get_pathway_genes <- function(pathway) {
-  require(KEGGREST)
-
-  pathway <- sub(".*:", "", pathway)
-  d <- KEGGREST::keggGet(pathway)
-  genes <- d[[1]]$GENE
-  genes <- grep(";", genes, value = TRUE)
-  genes <- sub(";.*", "", genes)
-  genes <- sort(unique(genes))
-  genes
-}
-
-#' @export
 plot_enrichment <- function(x, n = 10, cutoff = 0.05, ontology = "BP", title = NULL) {
   if (colnames(x)[1] == "Term") {
     x <- x %>% filter(Ont == !!ontology)
