@@ -1,5 +1,5 @@
 Package: omisc
-Title: Miscelaneous Tools for the Analysis of OMICS data
+Title: Miscelaneous Tools For The Analysis Of Omics Data
 Description: A set of miscelaneous tools to ease the analysis of omics data
   like the one obtained from microarray and bulk RNA-seq.
 Version: 0.0.1
