@@ -15,12 +15,13 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports: 
     dplyr,
-    ggplot2,
-    ComplexHeatmap,
-    edgeR,
+    ggplot2
+Suggests:
+    KEGGREST,
+    Gviz,
     VennDiagram,
     futile.logger,
-    Gviz
-Suggests:
-    KEGGREST
+    ComplexHeatmap,
+    limma, 
+    edgeR
 License: MIT + file LICENSE
