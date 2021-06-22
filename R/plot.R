@@ -74,7 +74,7 @@ plot_ma.MArrayLM <- function(x, coef = 1, color.by = NULL) {
 #' @param top_genes number of genes to highlight.
 #' @param lfc logFC cutoff for top genes.
 #' @param fdr FDR cutoff for top genes.
-#' @use.column column containing gene names (default: symbol).
+#' @param use.column column containing gene names (default: symbol).
 #' @param color.by column to color points.
 #' @param ... arguments passed down to methods.
 #'

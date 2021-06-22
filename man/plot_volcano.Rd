@@ -35,6 +35,8 @@ plot_volcano(
 
 \item{fdr}{FDR cutoff for top genes.}
 
+\item{use.column}{column containing gene names (default: symbol).}
+
 \item{color.by}{column to color points.}
 
 \item{...}{arguments passed down to methods.}
