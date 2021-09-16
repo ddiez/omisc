@@ -4,7 +4,7 @@
 \name{omisc-package}
 \alias{omisc}
 \alias{omisc-package}
-\title{omisc: Miscelaneous Tools For The Analysis Of Omics Data}
+\title{omisc: Miscelaneous Tools for the Analysis of Omics Data}
 \description{
 A set of miscelaneous tools to ease the analysis of omics data
   like the one obtained from microarray and bulk RNA-seq.
