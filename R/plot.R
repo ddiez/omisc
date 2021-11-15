@@ -17,10 +17,10 @@ plot_heatmap <- function(x, ...) {
 
 #' @rdname plot_heatmap
 #' @export
-plot_heatmap.DGEList <- function(x, log = TRUE, batch = NULL, design = NULL, symbol.col = "SYMBOL", top_ann = NULL, top_ann_col = NULL, ...) {
+plot_heatmap.DGEList <- function(x, log = TRUE, batch = NULL, design = NULL, symbol.col = "symbol", top_ann = NULL, top_ann_col = NULL, ...) {
 
   if (!is.null(top_ann)) {
-    df <- x$sample[, top_ann]
+    df <- x$sample |> select(top_ann)
     top_ann <- ComplexHeatmap::columnAnnotation(df = df, col = top_ann_col)
   }
 
