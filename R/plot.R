@@ -134,12 +134,12 @@ plot_ma.MArrayLM <- function(x, coef = 1, color.by = NULL) {
 #' @return
 #' @export
 plot_volcano <- function(x, ...) {
-  UseMethod("plot_vocano")
+  UseMethod("plot_volcano")
 }
 
 #' @rdname plot_volcano
 #' @export
-plot_volcano <- function(x, coef = 1, top_genes = NULL, lfc = 1, fdr = 0.01, use.column = "symbol", color.by = NULL) {
+plot_volcano.MArrayLM <- function(x, coef = 1, top_genes = NULL, lfc = 1, fdr = 0.01, use.column = "symbol", color.by = NULL) {
   d <- limma::topTable(x, coef, number = Inf)
 
   if (!is.null(color.by)) {
@@ -151,7 +151,7 @@ plot_volcano <- function(x, coef = 1, top_genes = NULL, lfc = 1, fdr = 0.01, use
   if (!is.null(color.by)) {
     p <- p + geom_point(aes(color = .data[[color.by]]))
   } else {
-    p <- p + geom_point(color = "lightgrey")
+    p <- p + geom_point(color = "black", size = .1)
   }
 
   p <- p + geom_hline(yintercept = -log10(1e-3), lty = "dotted") +

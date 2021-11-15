@@ -2,19 +2,12 @@
 % Please edit documentation in R/plot.R
 \name{plot_volcano}
 \alias{plot_volcano}
+\alias{plot_volcano.MArrayLM}
 \title{plot_volcano}
 \usage{
-plot_volcano(
-  x,
-  coef = 1,
-  top_genes = NULL,
-  lfc = 1,
-  fdr = 0.01,
-  use.column = "symbol",
-  color.by = NULL
-)
+plot_volcano(x, ...)
 
-plot_volcano(
+\method{plot_volcano}{MArrayLM}(
   x,
   coef = 1,
   top_genes = NULL,
@@ -27,6 +20,8 @@ plot_volcano(
 \arguments{
 \item{x}{an R object.}
 
+\item{...}{arguments passed down to methods.}
+
 \item{coef}{name of the coefficient.}
 
 \item{top_genes}{number of genes to highlight.}
@@ -38,8 +33,6 @@ plot_volcano(
 \item{use.column}{column containing gene names (default: symbol).}
 
 \item{color.by}{column to color points.}
-
-\item{...}{arguments passed down to methods.}
 }
 \value{
 
