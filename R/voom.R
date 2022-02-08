@@ -21,5 +21,5 @@ plot_voom.EList <- function(x) {
   ggplot(d, aes(x, y)) +
     geom_point(size = .1) +
     annotate("line", x = l$x, y = l$y, color = "red", size = 1) +
-    labs(x = d$xlab, y = d$ylab, title = "voom: Mean variance trend")
+    labs(x = x$voom.xy$xlab, y = x$voom.xy$ylab, title = "voom: Mean variance trend")
 }
