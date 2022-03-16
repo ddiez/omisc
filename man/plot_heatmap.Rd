@@ -14,6 +14,7 @@ plot_heatmap(x, ...)
   batch = NULL,
   design = NULL,
   symbol.col = "SYMBOL",
+  keep.ids = FALSE,
   top_ann = NULL,
   top_ann_col = NULL,
   ...
@@ -33,6 +34,8 @@ plot_heatmap(x, ...)
 \item{design}{design matrix for removeBatchEffect.}
 
 \item{symbol.col}{column name with gene symbols.}
+
+\item{keep.ids}{whether to keep original feature ids.}
 
 \item{top_ann}{names of columns to be used as top annotations.}
 

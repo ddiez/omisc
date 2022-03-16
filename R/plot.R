@@ -5,6 +5,7 @@
 #' @param batch batch variable for removeBatchEffect.
 #' @param design design matrix for removeBatchEffect.
 #' @param symbol.col column name with gene symbols.
+#' @param keep.ids whether to keep original feature ids.
 #' @param top_ann names of columns to be used as top annotations.
 #' @param top_ann_col color definition for the categories in the top annotations.
 #' @param show_column_names whether to show column names (default: TRUE).
@@ -17,7 +18,7 @@ plot_heatmap <- function(x, ...) {
 
 #' @rdname plot_heatmap
 #' @export
-plot_heatmap.DGEList <- function(x, log = TRUE, batch = NULL, design = NULL, symbol.col = "symbol", top_ann = NULL, top_ann_col = NULL, ...) {
+plot_heatmap.DGEList <- function(x, log = TRUE, batch = NULL, design = NULL, symbol.col = "SYMBOL", keep.ids = FALSE, top_ann = NULL, top_ann_col = NULL, ...) {
 
   if (!is.null(top_ann)) {
     df <- x$sample |> select(top_ann)
@@ -33,10 +34,16 @@ plot_heatmap.DGEList <- function(x, log = TRUE, batch = NULL, design = NULL, sym
     m <- removeBatchEffect(m, batch = batch, design = design)
   }
 
-  ids <- x$genes[[symbol.col]]
-  sel.na <- is.na(ids)
-  ids[sel.na] <- rownames(x)[sel.na]
-  rownames(m) <- ids
+  symbol <- x$genes[[symbol.col]]
+
+  if (keep.ids) {
+    symbol <- paste0(rownames(m), ":", symbol)
+  } else {
+    sel.na <- is.na(symbol)
+    symbol[sel.na] <- rownames(m)[sel.na]
+  }
+
+  rownames(m) <- symbol
 
   plot_heatmap(m, top_ann = top_ann, ...)
 }
