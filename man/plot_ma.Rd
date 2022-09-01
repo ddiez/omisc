@@ -18,9 +18,6 @@ plot_ma(x, ...)
 
 \item{color.by}{column to color points.}
 }
-\value{
-
-}
 \description{
 MA plot from various types of objects.
 }

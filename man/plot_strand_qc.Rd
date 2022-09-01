@@ -9,9 +9,6 @@ plot_strand_qc(x)
 \arguments{
 \item{x}{a data.frame like object obtained with read_star().}
 }
-\value{
-
-}
 \description{
 Plots to facilitate identifying the strandness of the sequencing data.
 }

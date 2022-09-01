@@ -16,9 +16,6 @@ plot_hist(x, ...)
 
 \item{coef}{name of coefficient.}
 }
-\value{
-
-}
 \description{
 Plots histogram from various types of objects.
 }

@@ -3,6 +3,7 @@
 \name{plot_volcano}
 \alias{plot_volcano}
 \alias{plot_volcano.MArrayLM}
+\alias{plot_correlation.DGEList}
 \title{plot_volcano}
 \usage{
 plot_volcano(x, ...)
@@ -16,6 +17,8 @@ plot_volcano(x, ...)
   use.column = "symbol",
   color.by = NULL
 )
+
+\method{plot_correlation}{DGEList}(x, log = TRUE, ...)
 }
 \arguments{
 \item{x}{an R object.}
@@ -33,9 +36,6 @@ plot_volcano(x, ...)
 \item{use.column}{column containing gene names (default: symbol).}
 
 \item{color.by}{column to color points.}
-}
-\value{
-
 }
 \description{
 Volcano plot from various types of objects.
