@@ -173,3 +173,23 @@ plot_volcano.MArrayLM <- function(x, coef = 1, top_genes = NULL, lfc = 1, fdr = 
   p
 }
 
+#' plot_correlation
+#'
+#' Correlation heatmap from samples.
+#'
+#' @param x an R object.
+#' @param log whether to use log CPMs.
+#' @param ... arguments passed down to methods.
+#'
+#' @return
+#' @export
+plot_correlation <- function(x, ...) {
+  UseMethod("plot_correlation")
+}
+
+#' @rdname plot_volcano
+#' @export
+plot_correlation.DGEList <- function(x, log=TRUE, ...) {
+  col_fun <- circlize::colorRamp2(c(-1,0,1), c("blue", "white", "red"))
+  ComplexHeatmap::Heatmap(cor(cpm(x, log=log)), name="correlation", col=col_fun, ...)
+}
