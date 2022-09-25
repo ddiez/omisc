@@ -24,31 +24,31 @@ as_immarch <- function(x, chain = NULL) {
 
 #' @export
 plot_enrichment <- function(x, n = 10, cutoff = 0.05, ontology = "BP", title = NULL) {
-  if (colnames(x)[1] == "Term") {
-    x <- x %>% filter(Ont == !!ontology)
+  if ("Term" %in% colnames(x)) {
+    x <- x |> filter(.data[["Ont"]] == ontology)
   }
 
-  top.up <- x %>% arrange(P.Up) %>% head(n)
-  top.down <- x %>% arrange(P.Down) %>% head(n)
+  top.up <- x |> arrange(.data[["P.Up"]]) |> head(n)
+  top.down <- x |> arrange(.data[["P.Down"]]) |> head(n)
 
-  if (colnames(x)[1] == "Pathway") {
-    d <- bind_rows(top.up, top.down) %>%
-      select(term = Pathway, up = P.Up, down = P.Down)
+  if ("Pathway" %in% colnames(x)) {
+    d <- bind_rows(top.up, top.down) |>
+      select(term="Pathway", up="P.Up", down="P.Down")
   } else {
-    d <- bind_rows(top.up, top.down) %>%
-      select(term = Term, up = P.Up, down = P.Down)
+    d <- bind_rows(top.up, top.down) |>
+      select(term="Term", up="P.Up", down="P.Down")
   }
 
   d <- d %>%
-    gather(direction, p.value, up, down) %>%
-    mutate(score = ifelse(direction == "up", -1 * log10(p.value), log10(p.value))) %>%
+    gather(direction, p.value, up, down) |>
+    mutate(score = ifelse(direction == "up", -1 * log10(p.value), log10(p.value))) |>
     mutate(term = fct_reorder(term, score))
 
-  ggplot(d, aes(term, score, fill = direction)) +
-    geom_hline(yintercept = 0, lty = "dotted") +
+  ggplot(d, aes(.data[["term"]], .data[["score"]], fill = .data[["direction"]])) +
+    geom_hline(yintercept=0, lty="dotted") +
     geom_col() +
-    geom_hline(yintercept = c(-log10(cutoff), log10(cutoff)), lty = "dotted") +
-    scale_fill_manual(values = c("up" = "red", "down" = "blue")) +
+    geom_hline(yintercept = c(-log10(cutoff), log10(cutoff)), lty="dotted") +
+    scale_fill_manual(values = c("up"="red", "down"="blue")) +
     coord_flip() +
     labs(x = NULL, y = NULL, title = title)
 }
