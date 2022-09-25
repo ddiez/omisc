@@ -4,7 +4,6 @@
 #'
 #' @param x a data.frame like object obtained with read_star().
 #'
-#' @return
 #' @export
 #'
 plot_strand_qc <- function(x) {

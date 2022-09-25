@@ -4,7 +4,6 @@
 #'
 #' @param file name of STAR out.tab file.
 #'
-#' @return
 #' @export
 #'
 read_star <- function(file = NULL) {

@@ -66,7 +66,6 @@ plot_heatmap.matrix <- function(x, scale = TRUE, show_column_names = TRUE, ...) 
 #' @param coef name of coefficient.
 #' @param ... arguments passed down to methods.
 #'
-#' @return
 #' @export
 plot_hist <- function(x, ...) {
   UseMethod("plot_hist")
@@ -96,7 +95,6 @@ plot_hist.MArrayLM <- function(x, coef = NULL) {
 #' @param color.by column to color points.
 #' @param ... arguments passed down to methods.
 #'
-#' @return
 #' @export
 plot_ma <- function(x, ...) {
   UseMethod("plot_ma")
@@ -138,7 +136,6 @@ plot_ma.MArrayLM <- function(x, coef = 1, color.by = NULL) {
 #' @param color.by column to color points.
 #' @param ... arguments passed down to methods.
 #'
-#' @return
 #' @export
 plot_volcano <- function(x, ...) {
   UseMethod("plot_volcano")
@@ -181,7 +178,6 @@ plot_volcano.MArrayLM <- function(x, coef = 1, top_genes = NULL, lfc = 1, fdr = 
 #' @param log whether to use log CPMs.
 #' @param ... arguments passed down to methods.
 #'
-#' @return
 #' @export
 plot_correlation <- function(x, ...) {
   UseMethod("plot_correlation")
