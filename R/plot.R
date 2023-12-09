@@ -74,7 +74,7 @@ plot_hist <- function(x, ...) {
 #' @rdname plot_hist
 #' @export
 plot_hist.MArrayLM <- function(x, coef = NULL) {
-  d <- to_tidy(fit2$p.value, "gene", "group", "p.value")
+  d <- to_tidy(x$p.value, "gene", "group", "p.value")
 
   if (!is.null(coef)) {
     d <- d %>% filter(group %in% coef)
