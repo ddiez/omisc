@@ -9,6 +9,7 @@
 #' @param top_ann names of columns to be used as top annotations.
 #' @param top_ann_col color definition for the categories in the top annotations.
 #' @param show_column_names whether to show column names (default: TRUE).
+#' @param show_ann_legend whether to show the annotation legends.
 #' @param ...
 #'
 #' @export
@@ -18,11 +19,11 @@ plot_heatmap <- function(x, ...) {
 
 #' @rdname plot_heatmap
 #' @export
-plot_heatmap.DGEList <- function(x, log = TRUE, batch = NULL, design = NULL, symbol.col = "SYMBOL", keep.ids = FALSE, top_ann = NULL, top_ann_col = NULL, ...) {
+plot_heatmap.DGEList <- function(x, log = TRUE, batch = NULL, design = NULL, symbol.col = "SYMBOL", keep.ids = FALSE, top_ann = NULL, top_ann_col = NULL, show_ann_legend=TRUE, ...) {
 
   if (!is.null(top_ann)) {
     df <- x$sample |> select(top_ann)
-    top_ann <- ComplexHeatmap::columnAnnotation(df = df, col = top_ann_col)
+    top_ann <- ComplexHeatmap::columnAnnotation(df = df, col = top_ann_col, show_legend=show_ann_legend)
   }
 
 

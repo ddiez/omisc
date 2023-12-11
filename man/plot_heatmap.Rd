@@ -17,6 +17,7 @@ plot_heatmap(x, ...)
   keep.ids = FALSE,
   top_ann = NULL,
   top_ann_col = NULL,
+  show_ann_legend = TRUE,
   ...
 )
 
@@ -40,6 +41,8 @@ plot_heatmap(x, ...)
 \item{top_ann}{names of columns to be used as top annotations.}
 
 \item{top_ann_col}{color definition for the categories in the top annotations.}
+
+\item{show_ann_legend}{whether to show the annotation legends.}
 
 \item{show_column_names}{whether to show column names (default: TRUE).}
 }
