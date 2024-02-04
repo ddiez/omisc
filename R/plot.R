@@ -168,7 +168,7 @@ plot_volcano.MArrayLM <- function(x, coef = 1, top_genes = NULL, lfc = 1, fdr = 
     top.down <- d %>% filter(logFC <= -lfc, adj.P.Val < fdr) %>% head(top_genes)
     p <- p + ggrepel::geom_text_repel(aes(label = .data[[use.column]]), color = "blue", data = top.down, min.segment.length = 0, max.overlaps = Inf)
   }
-  p
+  p + labs(title = coef)
 }
 
 #' plot_correlation
