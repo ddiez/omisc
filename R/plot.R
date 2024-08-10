@@ -78,12 +78,13 @@ plot_hist.MArrayLM <- function(x, coef = NULL) {
   d <- to_tidy(x$p.value, "gene", "group", "p.value")
 
   if (!is.null(coef)) {
-    d <- d %>% filter(group %in% coef)
+    d <- d %>% filter(.data[["group"]] %in% coef)
   }
 
-  ggplot(d, aes(p.value)) +
-    geom_histogram(binwidth = .01) +
-    facet_wrap(~group)
+  lapply(unique(d$group), function(g) {
+    ggplot(d |> filter(.data[["group"]] == g), aes(.data[["p.value"]])) +
+      geom_histogram(binwidth = .01)
+  }) |> patchwork::wrap_plots()
 }
 
 

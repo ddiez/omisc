@@ -206,4 +206,3 @@ to_tidy.tbl_df <- function(x, row.name = "row", col.name = "col", value.name = "
 
   y
 }
-
