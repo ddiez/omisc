@@ -74,17 +74,25 @@ plot_hist <- function(x, ...) {
 
 #' @rdname plot_hist
 #' @export
-plot_hist.MArrayLM <- function(x, coef = NULL) {
+plot_hist.MArrayLM <- function(x, coef = NULL, remove_intercept=TRUE, ...) {
   d <- to_tidy(x$p.value, "gene", "group", "p.value")
+
+  if (remove_intercept) {
+    d <- d |> filter(! grepl("intercept", .data[["group"]], ignore.case=TRUE))
+  }
 
   if (!is.null(coef)) {
     d <- d %>% filter(.data[["group"]] %in% coef)
   }
 
-  lapply(unique(d$group), function(g) {
-    ggplot(d |> filter(.data[["group"]] == g), aes(.data[["p.value"]])) +
-      geom_histogram(binwidth = .01)
-  }) |> patchwork::wrap_plots()
+  #groups <- unique(d[["group"]])
+  ggplot(d, aes(.data[["p.value"]])) +
+    geom_histogram(binwidth=0.01) +
+    facet_wrap("group", ...)
+  #lapply(groups, function(g) {
+  #  ggplot(d |> filter(.data[["group"]] == g), aes(.data[["p.value"]])) +
+  #    geom_histogram(binwidth = .01) + labs(title=g)
+  #}) |> patchwork::wrap_plots()
 }
 
 
