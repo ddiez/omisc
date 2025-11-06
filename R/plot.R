@@ -1,3 +1,17 @@
+#' plot_enrichr
+#' 
+#' Plots the results of enrichR with some different choice of colors.
+#'
+#' @param x enrichR result.
+plot_enrichr <- function(x, db) {
+  x$Term <- factor(x$Term, rev(x$Term))
+  x$Count <- as.integer(sub("\\/.*", "", x$Overlap))
+  ggplot(x, aes(.data[["Count"]], .data[["Term"]], fill=-log10(.data[["Adjusted.P.value"]]))) +
+    geom_col() + 
+    scale_fill_distiller(palette="Spectral") +
+    labs(y=NULL)
+}
+
 #' plot_heatmap
 #'
 #' @param x object to plot.
