@@ -7,7 +7,7 @@
 \usage{
 plot_hist(x, ...)
 
-\method{plot_hist}{MArrayLM}(x, coef = NULL)
+\method{plot_hist}{MArrayLM}(x, coef = NULL, remove_intercept = TRUE, ...)
 }
 \arguments{
 \item{x}{an R object.}
