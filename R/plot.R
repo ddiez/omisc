@@ -99,14 +99,9 @@ plot_hist.MArrayLM <- function(x, coef = NULL, remove_intercept=TRUE, ...) {
     d <- d %>% filter(.data[["group"]] %in% coef)
   }
 
-  #groups <- unique(d[["group"]])
   ggplot(d, aes(.data[["p.value"]])) +
     geom_histogram(binwidth=0.01) +
     facet_wrap("group", ...)
-  #lapply(groups, function(g) {
-  #  ggplot(d |> filter(.data[["group"]] == g), aes(.data[["p.value"]])) +
-  #    geom_histogram(binwidth = .01) + labs(title=g)
-  #}) |> patchwork::wrap_plots()
 }
 
 
